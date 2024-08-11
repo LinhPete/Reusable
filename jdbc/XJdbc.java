@@ -4,7 +4,7 @@
  */
 package jdbc;
 
-import FrameTools.MsgBox;
+import utils.MsgBox;
 import encrypt.AES;
 import java.io.IOException;
 import java.nio.file.Files;

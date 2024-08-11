@@ -9,7 +9,7 @@ package FrameTools;
  * @author ndhlt
  * @param <Entity>
  */
-public abstract class EntityController<Entity> extends SubController {
+public abstract class FormController<Entity> extends SubController {
 
     abstract public void setForm(Entity e);
 
