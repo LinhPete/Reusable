@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package utils;
+package table;
 
 import java.awt.Color;
 import java.sql.*;
@@ -79,12 +79,12 @@ public final class XTable {
         table.setModel(model);
     }
 
-    public static void insertImage(JTable table, int column, int height, int width, String folder) {
+    public static void insertImage(JTable table, int column, int height, int width) {
         for (int i = 0; i < table.getModel().getRowCount(); i++) {
             table.setRowHeight(i, height);
         }
         table.getColumnModel().getColumn(column).setWidth(width);
-        table.getColumnModel().getColumn(column).setCellRenderer(new ImageRenderer(folder));
+        table.getColumnModel().getColumn(column).setCellRenderer(new TableCellRenderer(TableCellRenderer.IMAGE_RENDER));
     }
     
     public class ImageTableModel extends DefaultTableModel {
@@ -102,70 +102,72 @@ public final class XTable {
     }
 }
 
-    public static class ImageRenderer extends DefaultTableCellRenderer {
-        
-        public String folder;
-
-        public ImageRenderer(String folder) {
-            this.folder = folder;
-        }
-        
-        public ImageRenderer() {
-        }
-        
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            // Gọi phương thức gốc để lấy thành phần hiển thị mặc định
-            Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-            // Kiểm tra nếu giá trị của ô là tên tệp hình ảnh
-            if (value instanceof String imagePath) {
-                try {
-                    int h = table.getRowHeight(row);
-                    int w = table.getColumnModel().getColumn(column).getWidth();
-
-                    // Thiết lập hình ảnh cho JLabel trong thành phần hiển thị
-                    JLabel label;
-                    if(folder!=null){
-                        label = new JLabel(XImage.getResized(XImage.read(folder, imagePath), w, h));
-                    }
-                    else{
-                        label = new JLabel(XImage.getResized(XImage.read(imagePath), w, h));
-                    }
-                    label.setHorizontalAlignment(JLabel.CENTER);
-
-                    // Thiết lập thành phần hiển thị là JLabel chứa hình ảnh
-                    return label;
-                } catch (Exception e) {
-                    return new JLabel(imagePath);
-                }
-            }
-            return component;
-        }
-    }
-    
-    public static class ColoredCellRenderer extends DefaultTableCellRenderer {
-        private Color color;
-        private boolean condition;
-        
-        public ColoredCellRenderer(Color color,boolean condition) {
-            this.color = color;
-            this.condition = condition;
-        }
-        
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus,
-                                                       int row, int column) {
-            JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-            // Đổi màu chữ của ô dữ liệu dựa trên giá trị
-            if(condition){
-                label.setForeground(color);
-            }
-
-
-            return label;
-        }
-    }
+//    private static class TableCellRenderer extends DefaultTableCellRenderer {
+//        
+//        private final JLabel label;
+//
+//        public TableCellRenderer(JLabel label) {
+//            this.label = label;
+//        }
+//
+//        @Override
+//        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+//            // Gọi phương thức gốc để lấy thành phần hiển thị mặc định
+//            Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+//
+//            // Kiểm tra nếu giá trị của ô là tên tệp hình ảnh
+////            if (value instanceof String imagePath) {
+////                try {
+////                    int h = table.getRowHeight(row);
+////                    int w = table.getColumnModel().getColumn(column).getWidth();
+////
+////                    // Thiết lập hình ảnh cho JLabel trong thành phần hiển thị
+////                    
+////                    if(folder!=null){
+////                        label = new JLabel(XImage.getResized(XImage.read(folder, imagePath), w, h));
+////                    }
+////                    else{
+////                        label = new JLabel(XImage.getResized(XImage.read(imagePath), w, h));
+////                    }
+////                    label.setHorizontalAlignment(JLabel.CENTER);
+////
+////                    // Thiết lập thành phần hiển thị là JLabel chứa hình ảnh
+////                    return label;
+////                } catch (Exception e) {
+////                    return new JLabel(imagePath);
+////                }
+////            }
+//            try{
+//                return label;
+//            }catch(Exception ex){
+//                ex.printStackTrace();
+//                return component;
+//            }
+//        }
+//    }
+//    
+//    public static class ColoredCellRenderer extends DefaultTableCellRenderer {
+//        private Color color;
+//        private boolean condition;
+//        
+//        public ColoredCellRenderer(Color color,boolean condition) {
+//            this.color = color;
+//            this.condition = condition;
+//        }
+//        
+//        @Override
+//        public Component getTableCellRendererComponent(JTable table, Object value,
+//                                                       boolean isSelected, boolean hasFocus,
+//                                                       int row, int column) {
+//            JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+//
+//            // Đổi màu chữ của ô dữ liệu dựa trên giá trị
+//            if(condition){
+//                label.setForeground(color);
+//            }
+//
+//
+//            return label;
+//        }
+//    }
 }
