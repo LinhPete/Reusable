@@ -5,7 +5,8 @@
 package FrameTools;
 
 import java.awt.Color;
-import utils.MsgBox;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,95 +15,36 @@ import utils.MsgBox;
 public class test extends javax.swing.JFrame {
 
     private XInteractive interact1;
-    private XInteractive interact2;
+    private XIGroup group;
 
     /**
      * Creates new form test
      */
     public test() {
         initComponents();
-        XIGroup group = new XIGroup();
-        interact1 = XInteractive.setInteract(subj1, Color.white, Color.black, true, group);
-        interact2 = XInteractive.setInteract(subj2, Color.white, Color.black, true, group);
-
-//        IPanel jPanel1 = new IPanel(Color.WHITE, Color.BLUE, Color.ORANGE, true);
-//        IPanel jPanel2 = new IPanel(Color.WHITE, Color.BLUE, Color.ORANGE, true);
-//        IPanel jPanel3 = new IPanel(Color.WHITE, Color.BLUE, Color.ORANGE, true);
-//        IPanel jPanel4 = new IPanel(Color.WHITE, Color.BLUE, Color.ORANGE, true);
-//        IPanel jPanel5 = new IPanel(Color.WHITE, Color.BLUE, Color.ORANGE, true);
-//
-//        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-//        getContentPane().setLayout(new java.awt.GridLayout(5, 0));
-//
-//        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-//        jPanel1.setLayout(jPanel1Layout);
-//        jPanel1Layout.setHorizontalGroup(
-//            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addGap(0, 400, Short.MAX_VALUE)
-//        );
-//        jPanel1Layout.setVerticalGroup(
-//            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addGap(0, 60, Short.MAX_VALUE)
-//        );
-//
-//        getContentPane().add(jPanel1);
-//
-//        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-//        jPanel2.setLayout(jPanel2Layout);
-//        jPanel2Layout.setHorizontalGroup(
-//            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addGap(0, 400, Short.MAX_VALUE)
-//        );
-//        jPanel2Layout.setVerticalGroup(
-//            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addGap(0, 60, Short.MAX_VALUE)
-//        );
-//
-//        getContentPane().add(jPanel2);
-//
-//        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-//        jPanel3.setLayout(jPanel3Layout);
-//        jPanel3Layout.setHorizontalGroup(
-//            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addGap(0, 400, Short.MAX_VALUE)
-//        );
-//        jPanel3Layout.setVerticalGroup(
-//            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addGap(0, 60, Short.MAX_VALUE)
-//        );
-//
-//        getContentPane().add(jPanel3);
-//
-//        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-//        jPanel4.setLayout(jPanel4Layout);
-//        jPanel4Layout.setHorizontalGroup(
-//            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addGap(0, 400, Short.MAX_VALUE)
-//        );
-//        jPanel4Layout.setVerticalGroup(
-//            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addGap(0, 60, Short.MAX_VALUE)
-//        );
-//
-//        getContentPane().add(jPanel4);
-//
-//        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-//        jPanel5.setLayout(jPanel5Layout);
-//        jPanel5Layout.setHorizontalGroup(
-//            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addGap(0, 400, Short.MAX_VALUE)
-//        );
-//        jPanel5Layout.setVerticalGroup(
-//            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addGap(0, 60, Short.MAX_VALUE)
-//        );
-//
-//        getContentPane().add(jPanel5);
-//        
-//        IPanelGroup ipnlGroup = new IPanelGroup();
-//        ipnlGroup.add(jPanel1,jPanel2,jPanel3,jPanel4,jPanel5);
-//
-//        pack();
+        group = new XIGroup();
+        try {
+            interact1 = new XInteractive();
+            interact1.setCom(subj1);
+            interact1.setHover(Color.green);
+            interact1.setClicked(Color.red);
+            interact1.setToggle(true);
+            interact1.setInteractive();
+//            group.add(interact1);
+        } catch (Exception ex) {
+            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            XInteractive xInteractive = new XInteractive(subj2, Color.green, Color.red, true, group);
+//            interact2.setCom(subj2);
+//            interact2.setHover(Color.green);
+//            interact2.setClicked(Color.red);
+//            interact2.setToggle(true);
+//            interact2.setInteractive();
+//            group.add(interact2);
+        } catch (Exception ex) {
+            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -114,60 +56,61 @@ public class test extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        subj1 = new javax.swing.JPanel();
-        subj2 = new javax.swing.JPanel();
+        btnReset = new javax.swing.JButton();
+        subj1 = new javax.swing.JLabel();
+        subj2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        subj1.setBackground(new java.awt.Color(0, 255, 255));
-        subj1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                subj1MouseClicked(evt);
+        btnReset.setText("jButton1");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
             }
         });
 
+        subj1.setBackground(new java.awt.Color(51, 255, 255));
+        subj1.setText("jLabel1");
+        subj1.setOpaque(true);
+
         subj2.setBackground(new java.awt.Color(0, 255, 255));
-        subj2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                subj2MouseClicked(evt);
-            }
-        });
+        subj2.setText("jLabel2");
+        subj2.setOpaque(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(subj1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(subj2, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(54, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(subj1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(subj2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnReset))))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(subj1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addComponent(subj2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
+                .addGap(49, 49, 49)
+                .addComponent(subj1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(subj2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addComponent(btnReset)
+                .addGap(22, 22, 22))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void subj1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subj1MouseClicked
-        if (!interact1.isClicked()) {
-            MsgBox.inform(this, "subj1 clicked");
-        }
-    }//GEN-LAST:event_subj1MouseClicked
-
-    private void subj2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subj2MouseClicked
-        if (!interact2.isClicked()) {
-            MsgBox.inform(this, "subj2 clicked");
-        }
-    }//GEN-LAST:event_subj2MouseClicked
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        group.clearSelection();
+    }//GEN-LAST:event_btnResetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -205,7 +148,8 @@ public class test extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel subj1;
-    private javax.swing.JPanel subj2;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JLabel subj1;
+    private javax.swing.JLabel subj2;
     // End of variables declaration//GEN-END:variables
 }

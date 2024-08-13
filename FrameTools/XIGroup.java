@@ -36,12 +36,12 @@ public final class XIGroup {
         icomp.add(com);
         if (com.isClicked()) {
             selection = com;
-            for (XInteractive ipanel : icomp) {
-                if (com.equals(ipanel)) {
+            for (XInteractive icom : icomp) {
+                if (selection.equals(icom)) {
                     continue;
                 }
-                ipanel.setClicked(false);
-                ipanel.getCom().setBackground(ipanel.getNormal());
+                icom.setClicked(false);
+                icom.getCom().setBackground(icom.getNormal());
             }
         }
         if (com.getGroup() == null) {
@@ -49,22 +49,22 @@ public final class XIGroup {
         }
     }
 
-    public void remove(XInteractive panel) {
-        if (panel == null) {
+    public void remove(XInteractive com) {
+        if (com == null) {
             return;
         }
-        icomp.remove(panel);
-        if (panel == selection) {
+        icomp.remove(com);
+        if (com == selection) {
             selection = null;
         }
-        panel.setGroup(null);
+        com.setGroup(null);
     }
 
     public void clearSelection() {
         selection = null;
-        for (XInteractive ipanel : icomp) {
-            ipanel.setClicked(false);
-            ipanel.getCom().setBackground(ipanel.getNormal());
+        for (XInteractive icom : icomp) {
+            icom.setClicked(false);
+            icom.getCom().setBackground(icom.getNormal());
         }
     }
 }

@@ -13,12 +13,32 @@ import java.awt.event.MouseAdapter;
  *
  * @author ndhlt
  */
-public class XInteractive {
-    
+public final class XInteractive {
+
     private Color normal;
-    private boolean toggle;
+    private Color hover;
+    private Color clicked;
+    private Boolean isToggle;
     private boolean isClicked = false;
     private XIGroup group = null;
+    private Component com;
+
+    public XInteractive() {
+    }
+
+    public XInteractive(Component com) {
+        this.com = com;
+    }
+
+    public XInteractive(Component com, Color hover, Color clicked, boolean isToggle, XIGroup group) throws Exception {
+        this.isToggle = isToggle;
+        this.normal = com.getBackground();
+        this.hover = hover;
+        this.clicked = clicked;
+        this.com = com;
+        this.group = group;
+        this.setInteractive();
+    }
 
     public Color getNormal() {
         return normal;
@@ -28,12 +48,28 @@ public class XInteractive {
         this.normal = normal;
     }
 
-    public boolean isToggle() {
-        return toggle;
+    public Color getHover() {
+        return hover;
     }
 
-    public void setToggle(boolean toggle) {
-        this.toggle = toggle;
+    public void setHover(Color hover) {
+        this.hover = hover;
+    }
+
+    public Color getClicked() {
+        return clicked;
+    }
+
+    public void setClicked(Color clicked) {
+        this.clicked = clicked;
+    }
+
+    public boolean isToggle() {
+        return isToggle;
+    }
+
+    public void setToggle(boolean isToggle) {
+        this.isToggle = isToggle;
     }
 
     public boolean isClicked() {
@@ -58,13 +94,23 @@ public class XInteractive {
 
     public void setCom(Component com) {
         this.com = com;
-    }
-    private Component com;
-
-    public XInteractive(Component com, Color hover, Color clicked, boolean isToggle, XIGroup group) {
-        this.toggle = isToggle;
         this.normal = com.getBackground();
-        com.addMouseListener(new MouseAdapter() {
+    }
+
+    public void setInteractive() throws Exception {
+        if (this.com == null) {
+            throw new Exception("No component set");
+        }
+        if (this.hover == null) {
+            throw new Exception("No hover color set");
+        }
+        if (this.clicked == null) {
+            throw new Exception("No clicked color set");
+        }
+        if (this.isToggle == null) {
+            throw new Exception("Must be declared as toggle or click only");
+        }
+        this.com.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 if (!isClicked) {
@@ -82,22 +128,28 @@ public class XInteractive {
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if (isToggle && !isClicked) {
-                    com.setBackground(clicked);
-                    isClicked = true;
-                    if(group!=null){
-                        group.add(XInteractive.this);
+                if (isToggle) {
+                    if (!isClicked) {
+                        com.setBackground(clicked);
+                        isClicked = true;
+                        if (group != null) {
+                            group.add(XInteractive.this);
+                        }
+                    }
+                    else if(isClicked && group == null){
+                        com.setBackground(hover);
+                        isClicked = false;
                     }
                 }
             }
-            
+
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 if (!isToggle) {
                     com.setBackground(clicked);
                 }
             }
-            
+
             @Override
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 if (!isToggle) {
@@ -105,10 +157,14 @@ public class XInteractive {
                 }
             }
         });
-        this.com = com;
     }
-    
-    public static XInteractive setInteract(Component com, Color hover, Color clicked, boolean isToggle, XIGroup group){
-        return new XInteractive(com, hover, clicked, isToggle, group);
+
+    public boolean equals(XInteractive icom) {
+        return this.normal.equals(icom.getNormal())
+                && this.hover.equals(icom.getHover())
+                && this.clicked.equals(icom.getClicked())
+                && this.isToggle.equals(icom.isToggle())
+                && this.isClicked == icom.isClicked()
+                && this.com.equals(icom.getCom());
     }
 }
